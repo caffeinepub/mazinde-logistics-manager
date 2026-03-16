@@ -1,6 +1,7 @@
 import BottomNav from "@/components/BottomNav";
 import { Toaster } from "@/components/ui/sonner";
 import { useInternetIdentity } from "@/hooks/useInternetIdentity";
+import { ThemeProvider } from "@/hooks/useTheme";
 import DashboardPage from "@/pages/DashboardPage";
 import DriversPage from "@/pages/DriversPage";
 import FinancePage from "@/pages/FinancePage";
@@ -57,10 +58,12 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="pb-20">{renderPage()}</main>
-      <BottomNav currentPage={currentPage} onNavigate={setCurrentPage} />
-      <Toaster />
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-background">
+        <main className="pb-20">{renderPage()}</main>
+        <BottomNav currentPage={currentPage} onNavigate={setCurrentPage} />
+        <Toaster />
+      </div>
+    </ThemeProvider>
   );
 }

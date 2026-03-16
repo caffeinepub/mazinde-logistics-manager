@@ -19,40 +19,33 @@
 @layer base {
   :root {
     --radius: 0.75rem;
-    /* === PREMIUM DARK PALETTE === */
+    /* === PREMIUM DARK PALETTE (raw L C H values for oklch()) === */
     --primary: 0.25 0.12 250;
     --primary-foreground: 0.98 0 0;
-    /* Amber/gold accent */
     --accent: 0.75 0.20 55;
     --accent-foreground: 0.10 0 0;
-    /* Dark navy backgrounds */
     --background: 0.10 0.05 250;
     --foreground: 0.95 0.01 250;
     --card: 0.15 0.06 250;
     --card-foreground: 0.95 0.01 250;
     --popover: 0.13 0.06 250;
     --popover-foreground: 0.95 0.01 250;
-    /* Secondary & muted */
     --secondary: 0.18 0.07 250;
     --secondary-foreground: 0.85 0.02 250;
     --muted: 0.17 0.05 250;
     --muted-foreground: 0.60 0.04 250;
-    /* Borders */
     --border: 0.22 0.06 250;
     --input: 0.22 0.06 250;
     --ring: 0.75 0.20 55;
-    /* Status */
     --destructive: 0.60 0.22 25;
     --destructive-foreground: 0.98 0 0;
     --success: 0.60 0.15 145;
     --warning: 0.75 0.18 52;
-    /* Charts */
     --chart-1: 0.75 0.20 55;
     --chart-2: 0.55 0.18 250;
     --chart-3: 0.60 0.15 145;
     --chart-4: 0.60 0.22 25;
     --chart-5: 0.55 0.14 290;
-    /* Sidebar */
     --sidebar: 0.12 0.06 250;
     --sidebar-foreground: 0.95 0.02 250;
     --sidebar-primary: 0.75 0.20 55;
@@ -61,6 +54,13 @@
     --sidebar-accent-foreground: 0.95 0 0;
     --sidebar-border: 0.22 0.06 250;
     --sidebar-ring: 0.75 0.20 55;
+    /* Gradient helpers (also raw L C H) */
+    --bg-dark: 0.08 0.06 260;
+    --bg-mid: 0.10 0.05 250;
+    --bg-light: 0.16 0.10 248;
+    --acc-l: 0.75;
+    --acc-c: 0.20;
+    --acc-h: 55;
   }
 
   * {
@@ -83,56 +83,51 @@
     padding-bottom: calc(5rem + env(safe-area-inset-bottom));
   }
 
-  /* Deep premium gradient backgrounds */
+  /* Deep premium gradient backgrounds -- uses CSS vars so theme changes apply */
   .gradient-navy {
     background: linear-gradient(160deg,
-      oklch(0.08 0.06 260) 0%,
-      oklch(0.12 0.08 255) 40%,
-      oklch(0.16 0.10 248) 100%);
+      oklch(var(--bg-dark)) 0%,
+      oklch(var(--bg-mid)) 40%,
+      oklch(var(--bg-light)) 100%);
   }
 
   .gradient-login-bg {
     background:
-      radial-gradient(ellipse at 20% 20%, oklch(0.22 0.14 250 / 0.6) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 80%, oklch(0.20 0.08 245 / 0.5) 0%, transparent 55%),
-      radial-gradient(ellipse at 50% 50%, oklch(0.08 0.05 255) 0%, oklch(0.05 0.04 260) 100%);
+      radial-gradient(ellipse at 20% 20%, oklch(var(--primary) / 0.6) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, oklch(var(--primary) / 0.5) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 50%, oklch(var(--bg-dark)) 0%, oklch(var(--background)) 100%);
   }
 
   /* Glassmorphism card */
   .glass-card {
-    background: oklch(0.18 0.07 250 / 0.6);
+    background: oklch(var(--card) / 0.6);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border: 1px solid oklch(0.95 0.01 250 / 0.10);
+    border: 1px solid oklch(var(--foreground) / 0.10);
     box-shadow:
-      0 4px 24px oklch(0.05 0.05 255 / 0.5),
-      0 1px 0 oklch(0.95 0.01 250 / 0.06) inset,
-      0 0 0 1px oklch(0.75 0.20 55 / 0.04);
+      0 4px 24px oklch(var(--background) / 0.5),
+      0 1px 0 oklch(var(--foreground) / 0.06) inset,
+      0 0 0 1px oklch(var(--accent) / 0.04);
   }
 
-  /* Amber glow */
+  /* Accent glow -- uses accent CSS var */
   .glow-amber {
     box-shadow:
-      0 0 20px oklch(0.75 0.20 55 / 0.35),
-      0 0 40px oklch(0.75 0.20 55 / 0.15),
-      0 4px 16px oklch(0.05 0.05 255 / 0.6);
+      0 0 20px oklch(var(--accent) / 0.35),
+      0 0 40px oklch(var(--accent) / 0.15),
+      0 4px 16px oklch(var(--background) / 0.6);
   }
 
   .glow-amber-sm {
-    box-shadow: 0 0 12px oklch(0.75 0.20 55 / 0.40), 0 2px 8px oklch(0.05 0.05 255 / 0.5);
+    box-shadow: 0 0 12px oklch(var(--accent) / 0.40), 0 2px 8px oklch(var(--background) / 0.5);
   }
 
-  /* Gradient text */
+  /* Gradient text -- uses accent CSS var */
   .text-gradient {
-    background: linear-gradient(135deg, oklch(0.85 0.18 58), oklch(0.72 0.22 48));
+    background: linear-gradient(135deg, oklch(var(--acc-l) var(--acc-c) var(--acc-h)), oklch(calc(var(--acc-l) - 0.03) var(--acc-c) var(--acc-h)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  /* Slide-in entrance animation */
-  .animate-slide-in {
-    animation: slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   /* Mesh noise pattern overlay */
@@ -141,14 +136,14 @@
     position: absolute;
     inset: 0;
     background-image:
-      radial-gradient(circle at 25% 25%, oklch(0.55 0.18 250 / 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, oklch(0.55 0.18 250 / 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 25% 25%, oklch(var(--primary) / 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, oklch(var(--primary) / 0.04) 0%, transparent 50%),
       url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
   }
 
-  /* Status badges – now themed for dark bg */
+  /* Status badges */
   .badge-available {
     @apply bg-emerald-500/20 text-emerald-300 border border-emerald-500/30;
     border-radius: 9999px;
@@ -181,11 +176,11 @@
   }
 
   .text-amber {
-    color: oklch(0.75 0.20 55);
+    color: oklch(var(--accent));
   }
 
   .bg-amber {
-    background-color: oklch(0.75 0.20 55);
+    background-color: oklch(var(--accent));
   }
 }
 

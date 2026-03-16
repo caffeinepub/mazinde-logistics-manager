@@ -17,7 +17,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { useInternetIdentity } from "@/hooks/useInternetIdentity";
 import { useSettings, useUpdateSettings } from "@/hooks/useQueries";
-import { Globe, LogOut, Save, Settings, Upload } from "lucide-react";
+import { useTheme } from "@/hooks/useTheme";
+import { Globe, LogOut, Palette, Save, Settings, Upload } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -25,6 +26,7 @@ export default function SettingsPage() {
   const { data: settings, isLoading } = useSettings();
   const updateSettings = useUpdateSettings();
   const { clear } = useInternetIdentity();
+  const { themes, currentTheme, setTheme } = useTheme();
 
   const [form, setForm] = useState<SettingsType>({
     companyName: "Mazinde Logistics",
@@ -176,6 +178,57 @@ export default function SettingsPage() {
               </div>
               <p className="text-xs text-muted-foreground mt-2">
                 Toggle between English and Swahili
+              </p>
+            </div>
+
+            {/* App Theme */}
+            <div
+              data-ocid="settings.theme.toggle"
+              className="bg-card rounded-2xl p-4 shadow-card border border-border"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Palette className="w-4 h-4 text-muted-foreground" />
+                <h2 className="font-semibold text-foreground">App Theme</h2>
+              </div>
+              <div className="flex items-center gap-3 mb-2">
+                {themes.map((theme, i) => (
+                  <button
+                    key={theme.id}
+                    type="button"
+                    data-ocid={`settings.theme.swatch.${i + 1}`}
+                    onClick={() => setTheme(theme.id)}
+                    title={theme.name}
+                    style={{
+                      backgroundColor: `oklch(${theme.accent})`,
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      border:
+                        currentTheme.id === theme.id
+                          ? "3px solid white"
+                          : "3px solid transparent",
+                      boxShadow:
+                        currentTheme.id === theme.id
+                          ? `0 0 0 2px oklch(${theme.accent})`
+                          : "none",
+                      cursor: "pointer",
+                      transition: "transform 0.15s, box-shadow 0.15s",
+                      transform:
+                        currentTheme.id === theme.id
+                          ? "scale(1.15)"
+                          : "scale(1)",
+                      flexShrink: 0,
+                    }}
+                    aria-label={theme.name}
+                    aria-pressed={currentTheme.id === theme.id}
+                  />
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Selected:{" "}
+                <span className="font-medium text-foreground">
+                  {currentTheme.name}
+                </span>
               </p>
             </div>
 
